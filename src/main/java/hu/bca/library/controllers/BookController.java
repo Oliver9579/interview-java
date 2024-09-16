@@ -1,14 +1,12 @@
 package hu.bca.library.controllers;
 
 import hu.bca.library.models.Book;
+import hu.bca.library.models.BookByAuthorNationDTO;
 import hu.bca.library.models.PublishedYearDTO;
 import hu.bca.library.services.BookService;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,14 @@ public class BookController {
   @ResponseBody
   List<PublishedYearDTO> updateAllBooksWithTheirPublishedYear() {
     return bookService.updateAllBooksWithPublicationYear();
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping("/query/{country}")
+  @ResponseBody
+  List<BookByAuthorNationDTO> getAllBooksFromGivenCountry(@PathVariable String country,
+                                                          @RequestParam(required = false) Integer from) {
+    return bookService.getAllBooksByCountry(country, from);
   }
 
 }

@@ -3,6 +3,7 @@ package hu.bca.library.services.impl;
 import hu.bca.library.config.OpenLibraryClient;
 import hu.bca.library.models.Author;
 import hu.bca.library.models.Book;
+import hu.bca.library.models.BookByAuthorNationDTO;
 import hu.bca.library.models.PublishedYearDTO;
 import hu.bca.library.repositories.AuthorRepository;
 import hu.bca.library.repositories.BookRepository;
@@ -57,6 +58,14 @@ public class BookServiceImpl implements BookService {
       }
     }
     return books.stream().map(book -> new PublishedYearDTO(book.getTitle(), book.getYear())).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<BookByAuthorNationDTO> getAllBooksByCountry(String country, Integer from) {
+    return bookRepository.findAllByConditions(country, from)
+            .stream()
+            .map(book -> new BookByAuthorNationDTO(book.getId(), book.getTitle(), book.getYear()))
+            .collect(Collectors.toList());
   }
 
 }
