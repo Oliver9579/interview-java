@@ -10,7 +10,7 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
   List<Book> findAll();
 
-  @Query(value = "SELECT B.*, A.name FROM Book B, Author A, book_author BA WHERE A.country = ?1 " +
+  @Query(value = "SELECT B.* FROM Book B, Author A, book_author BA WHERE A.country = ?1 " +
           "AND (IFNULL(?2, 0) <= B.year) AND B.id = BA.book_id AND A.id = BA.author_id ORDER BY B.year ASC;", nativeQuery = true)
   List<Book> findAllByConditions(String country, Integer from);
 
